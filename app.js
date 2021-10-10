@@ -52,5 +52,36 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// ********** smooth scroll ************
+// 4  ********** smooth scroll ************
 // select links
+const scrollLinks = document.querySelectorAll(".scroll-link");
+scrollLinks.forEach(function (link) {
+  link.addEventListener("click", (e) => {
+    // prevent default stop going to the section
+    e.preventDefault();
+    // navigat to specific spot
+    const id = e.currentTarget.getAttribute("href").slice(1); // slice(1) = skipe the 0 index which contains here "#" and shownig the id name only
+    //console.log(id);
+    const element = document.getElementById(id);
+    // calculate the height
+    const navHeight = navbar.getBoundingClientRect().height;
+    const containerHeight = linksContainer.getBoundingClientRect().height;
+    const fixedNav = navbar.classList.contains("fixed-nav");
+    let position = element.offsetTop - navHeight; // offsetTop get the top positionof my element in px
+    // for bigg screen
+    if (!fixedNav) {
+      position = position - navHeight;
+    }
+    // for small screen
+    if (navHeight > 82) {
+      position = position + containerHeight;
+    }
+    console.log(position);
+    window.scrollTo({
+      left: 0,
+      top: position,
+    });
+    // hide / close the nav bar the contain link
+    linksContainer.style.height = 0;
+  });
+});
